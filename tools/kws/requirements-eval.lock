@@ -1,0 +1,31 @@
+# K2 评测门禁（tools/kws/k2_eval_gate.py）的钉死依赖清单
+#
+# 为什么需要这个文件：K2 门禁的 NC2a / NC2b / NC2d / C9 四项都要真跑 TFLite 解释器。
+# 本机（39-fans）此前缺 ai_edge_litert 且 pip 走代理 502，门禁只能降级成
+# 16 PASS + 4 NOT_RUN（gate 自己报 NOT_RUN，不谎报 PASS）。为了让"20/20"可复现，
+# 依赖必须钉到版本 + wheel 哈希，而不是"装个 tflite 就行"。
+#
+# 安装（隔离 venv，不动系统 Python）：
+#   python -m venv %USERPROFILE%\.workbuddy\binaries\python\envs\kws
+#   %USERPROFILE%\.workbuddy\binaries\python\envs\kws\Scripts\python.exe -m pip install \
+#       --require-hashes -r tools/kws/requirements-eval.lock
+#
+# 验证：
+#   <venv>\Scripts\python.exe -c "import ai_edge_litert, numpy; print(ai_edge_litert.__version__)"
+#   <venv>\Scripts\python.exe tools/kws/k2_eval_gate.py --run-id <新 run_id>
+#
+# 平台：win_amd64（wheel 名已写明）。换平台/换 Python 小版本要重出本文件——
+# ai_edge_litert 只发 abi 专用 wheel（cp310..cp314），没有 py3-none-any 兜底。
+#
+# 参考：verification/kws/k2/eval_gate/2026-10-21_k2gate_pinned/ENV_PIN.md
+#       （该目录记录了本清单下 20/20 的实跑结果与跨机 predictions.jsonl md5 对拍）
+
+ai-edge-litert==2.3.0 --hash=sha256:c61e7bfe1938f94f2de7062e580b95f141157220af46c59c65fac8dd72d426b0
+numpy==2.5.4 --hash=sha256:8b4d2fd2d34e5f8c9235ee787de5631a37a28402b15cb80814df973d2be54129
+flatbuffers==25.12.19 --hash=sha256:7634f50c427838bb021c2d66a3d1168e9d199b0607e6329399f04846d42e20b4
+protobuf==7.36.2 --hash=sha256:a300819d441e078a5608c0d3c709796bb548136058fda017ae51d425b44fd353
+ml-dtypes==0.6.0 --hash=sha256:fb87f46b4f7ad7b5d3ad8f4b452b024bd4229d44c8ff934798c1fe656210387a
+backports.strenum==1.2.8 --hash=sha256:fc297cb26971f7d5e15a478a06a78575197f81daea47975771b1aae996dcccf4
+colorama==0.4.6 --hash=sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6
+tqdm==4.70.1 --hash=sha256:c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73
+typing-extensions==4.16.0 --hash=sha256:481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8

@@ -1,0 +1,15 @@
+# Simulation and tool outputs
+**/.boot-build/
+**/obj_dir/
+**/out/
+**/*.vcd
+**/*.vvp
+**/work/
+.DS_Store
+Thumbs.db
+
+# Pango PDS generated output
+**/generate_bitstream/
+**/*.log
+**/*.out
+**/*.err

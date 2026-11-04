@@ -1,0 +1,235 @@
+{
+ "model_id": "model_zh_aug_s20261030",
+ "source": {
+  "repo": "risc-v-fpga-cpu-2026",
+  "ref": "origin/sync/kws-20261019",
+  "commit": "ffc4a9489eba74cf9d3898ae45d5fb7078050b91",
+  "vectors_dir": "verification/kws/k7/model_zh_aug_s20261030/vectors",
+  "raw_tflite_sha256": "3d20387b6e028a1ee4fdd7e3e12f784870854d71256c8d786eeb7033ee4c37f8",
+  "packed_4ops_tflite_sha256": "a7bbfc4d228f5ac710f790a8989b50e5efc0196d7f32f5138f8875b43db7a319",
+  "layers_mem_sha256": "30e5d429ac84965ed530179f997a621171950cc2be3dccbbe474a613fafc168e",
+  "packed_model_crc32": 3501014197,
+  "source_manifest_sha256": "6fcaff5a659896678ff88f6ffdf4fd951686a94b2f7dd4c47913c3598a0d0d72",
+  "strip_gate_sha256": "fd92dc57b3cac99223c9bce1135489130180cb890982980a18c3d0143d44eda9",
+  "board_rom_init_sha256": "39307f0368237c6c2fb07a148eb6e3d2c6ed7ffec60d5a01d257c4002b75753e"
+ },
+ "toolchain": {
+  "packer": "tools/kws/pack_zh_aug_rom.py",
+  "layout_reference": "K4 128-byte descriptor ABI (compile_openeye.py)",
+  "generator": "tools/kws/export_model_rom_hex.py"
+ },
+ "rom": {
+  "params_rom_bytes": 16688,
+  "params_rom_sha256": "d35e689a875be932e9a5bd39f141b54cded1d467487078c3e3247ea9cbb12c8d",
+  "conv_weights": {
+   "base": 0,
+   "bytes": 640,
+   "sha256": "ebab942d2123e2b468eef5dc7403fbda6bd35fd14db08e8106d9811ed94dc00a"
+  },
+  "conv_bias_hw": {
+   "base": 640,
+   "bytes": 32,
+   "sha256": "102403cc0780c97cdae51549c43511a341f79ffe4983a94fe7b5bdf681ca2234"
+  },
+  "fc_weights": {
+   "base": 672,
+   "bytes": 16000,
+   "sha256": "b15e1bb45007929203d78c7cbddef95d6b9f21188b20b9cbc70514faf2958fe7"
+  },
+  "fc_bias_hw": {
+   "base": 16672,
+   "bytes": 16,
+   "sha256": "060201d6c5e70fc88e49c23d03650118edae3264b301744d6cc986c65fce130e"
+  },
+  "quant_rom_bytes": 96,
+  "quant_rom_sha256": "346e166063b323ebe258713c9916535e38abeba31ac8ba11abae275876e7c52d",
+  "source": {
+   "dw_weights_sha256": "7ec107f777ce46a73aad719575504047a2e3d478a1be06295d388a37f0a52e90",
+   "dw_bias_sha256": "97ac5e5fcd79f1c241306f777a546c90265f20ee08ec4db742b256d641ae860d",
+   "fc_weights_sha256": "d37b4a5c90b378edc68f3b8cb3297d959ac66c1ed5464ac3e0476b1f3bcbd3db",
+   "fc_bias_sha256": "ca24edbceddd9a9968d93d0ece9e709de830c80d891da7e9a0e55f06b37174d2",
+   "quant_mult_sha256": "a1c818d6cfb8ad0300c7631cc1a5102361f5011dc1c35c157547436822109b28",
+   "quant_shift_sha256": "abfcac82f0e37d695625f371440814f57f9fed0bff5cbb1c3f1e12d231ab5ad1"
+  }
+ },
+ "descriptors": [
+  {
+   "index": 0,
+   "layer": "DEPTHWISE_CONV_2D",
+   "hardware_op": 1,
+   "bytes": 128,
+   "sha256": "cdd1032398d352b7e2f19c3bb60ffa4e4985d72b0dd491558978c13cf996a136",
+   "crc32": 2295069483,
+   "fields": {
+    "kernel": [
+     10,
+     8
+    ],
+    "stride": [
+     2,
+     2
+    ],
+    "dilation": [
+     1,
+     1
+    ],
+    "pad": [
+     4,
+     5,
+     3,
+     3
+    ],
+    "input_shape": [
+     49,
+     40,
+     1
+    ],
+    "output_shape": [
+     25,
+     20,
+     8
+    ],
+    "weight_layout": 1,
+    "accumulator_bits": 32,
+    "input_zp": -128,
+    "output_zp": -128,
+    "output_elements": 4000,
+    "input_bytes": 1960,
+    "output_bytes": 4000
+   }
+  },
+  {
+   "index": 1,
+   "layer": "FULLY_CONNECTED",
+   "hardware_op": 2,
+   "bytes": 128,
+   "sha256": "8c847e9be7a61b13638304c5a8577b202c9d87838f96b95161769f1f02a4d7e5",
+   "crc32": 623440999,
+   "fields": {
+    "kernel": [
+     1,
+     1
+    ],
+    "stride": [
+     1,
+     1
+    ],
+    "dilation": [
+     1,
+     1
+    ],
+    "pad": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "input_shape": [
+     1,
+     1,
+     4000
+    ],
+    "output_shape": [
+     1,
+     1,
+     4
+    ],
+    "weight_layout": 2,
+    "accumulator_bits": 32,
+    "input_zp": -128,
+    "output_zp": 21,
+    "output_elements": 4,
+    "input_bytes": 4000,
+    "output_bytes": 4
+   }
+  }
+ ],
+ "descriptors_note": "model-specific descriptors from the packed 4-op TFLite model; FC tensor 10 output zero point is 21",
+ "model_contract": {
+  "labels": [
+   "silence",
+   "unknown",
+   "yes",
+   "no"
+  ],
+  "source_model_commit": "ffc4a9489eba74cf9d3898ae45d5fb7078050b91",
+  "raw_graph_ops": [
+   "RESHAPE",
+   "DEPTHWISE_CONV_2D",
+   "RESHAPE",
+   "FULLY_CONNECTED",
+   "SOFTMAX"
+  ],
+  "packed_graph_ops": [
+   "RESHAPE",
+   "DEPTHWISE_CONV_2D",
+   "FULLY_CONNECTED",
+   "SOFTMAX"
+  ],
+  "fully_connected_weight_scales": [
+   0.0040174731984734535,
+   0.002273823833093047,
+   0.004041963256895542,
+   0.004389881156384945
+  ],
+  "fully_connected_bias_scales": [
+   0.0002153248933609575,
+   0.00012187035463284701,
+   0.00021663749066647142,
+   0.0002352848823647946
+  ],
+  "fully_connected_weight_zero_points": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "fully_connected_bias_zero_points": [
+   0,
+   0,
+   0,
+   0
+  ],
+  "fc_input": {
+   "tensor_index": 9,
+   "shape": [
+    1,
+    4000
+   ],
+   "scale": 0.0535970963537693,
+   "zero_point": -128
+  },
+  "fully_connected_input_scale": 0.0535970963537693,
+  "fc_output": {
+   "tensor_index": 10,
+   "shape": [
+    1,
+    4
+   ],
+   "scale": 0.15563754737377167,
+   "zero_point": 21
+  },
+  "softmax_output": {
+   "input_tensor": 10,
+   "output_tensor": 11,
+   "output_shape": [
+    1,
+    4
+   ],
+   "output_scale": 0.00390625,
+   "output_zero_point": -128,
+   "outside_hardware_accelerator": true
+  }
+ },
+ "activation_peak_bytes": 4000,
+ "evidence_status": {
+  "parser_manifest_pack": "PASS (pack_zh_aug_rom.py)",
+  "source_tflite_contract": "PASS (FlatBuffer tensor audit; see evidence/kws-model-contract-20261102)",
+  "layer_descriptor_equivalence": "PASS (model-specific descriptor; FC output zero point=21)",
+  "rom_tensor_binding": "PASS (weights, folded biases, and FC per-channel quantization matched)",
+  "rtl_layer_output": "NOT_RUN (no RTL simulation in this contract audit)",
+  "corrected_rtl_openeye_parity": "NOT_RUN (existing parity is bound to FC output zero point 14)",
+  "pds": "NOT_RUN",
+  "board": "NOT_RUN"
+ }
+}

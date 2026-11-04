@@ -1,0 +1,55 @@
+{
+  "purpose": "Official TFLM micro_speech test inputs at the pinned commit; used as K2 fixture source",
+  "repo": "tensorflow/tflite-micro",
+  "commit": "230c9d9531bd9b08d445b4f2ed0760756ffd5f78",
+  "dir": "tensorflow/lite/micro/examples/micro_speech/testdata",
+  "fetched_via": "GitHub Contents API (api.github.com/.../contents/<path>?ref=<commit>), Accept: application/vnd.github.raw",
+  "license": "Apache-2.0 (see ../TFLM-LICENSE)",
+  "files": [
+    {
+      "file": "audio_preprocessor.py",
+      "size": 21503,
+      "sha256": "2e561064c0e04f4673db29e69f46a2afc491171dd16385c1387ab4a3fa0ec966"
+    },
+    {
+      "file": "micro_speech_test.cc",
+      "size": 11981,
+      "sha256": "a149fb403cad7aae3be5d3dc43769b474ed2462117459646d0a9ec8aa7b3fc9e"
+    },
+    {
+      "file": "no_1000ms.wav",
+      "size": 32044,
+      "sha256": "21e2b640385e4a751d480a87ae5a1633a6ff00e838b0e2ad48b22f8034e946d8"
+    },
+    {
+      "file": "no_30ms.wav",
+      "size": 1004,
+      "sha256": "0aceeed1efe4e08f85c7dff67d75bc2da87f84e48ec12b3c4b215f9c38fbcc35"
+    },
+    {
+      "file": "noise_1000ms.wav",
+      "size": 32044,
+      "sha256": "7f9cbb350f20ea8aafcd43a9386d8490241f9da64da6d3ad624e2aa36fe2029c"
+    },
+    {
+      "file": "README.md",
+      "size": 13643,
+      "sha256": "c9207d511fbec530ef70e1d5249a8ee1704fbb6cebe482c03cd3378fa24d7dc4"
+    },
+    {
+      "file": "silence_1000ms.wav",
+      "size": 32044,
+      "sha256": "b2149db40d58f46ac63a510bd293bb7a9bf9e379429a79e7c5e3a8d66d55e7f0"
+    },
+    {
+      "file": "yes_1000ms.wav",
+      "size": 32044,
+      "sha256": "b40e137a9d25bbdf135e03fa0f6bff4696d0bfc203aef8bc73b27c9428ba5a92"
+    },
+    {
+      "file": "yes_30ms.wav",
+      "size": 1004,
+      "sha256": "13664a7c30e72b982ca12b32fd4f3bfb5305186f2f2c9dbea5bdd62093354988"
+    }
+  ]
+}

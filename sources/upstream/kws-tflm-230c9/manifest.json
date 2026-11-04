@@ -1,0 +1,56 @@
+{
+  "purpose": "Pinned model/schema inspection inputs, not hardware execution evidence",
+  "files": [
+    {
+      "file": "micro_speech_quantized.tflite",
+      "repo": "tensorflow/tflite-micro",
+      "commit": "230c9d9531bd9b08d445b4f2ed0760756ffd5f78",
+      "path": "tensorflow/lite/micro/examples/micro_speech/models/micro_speech_quantized.tflite",
+      "url": "https://raw.githubusercontent.com/tensorflow/tflite-micro/230c9d9531bd9b08d445b4f2ed0760756ffd5f78/tensorflow/lite/micro/examples/micro_speech/models/micro_speech_quantized.tflite",
+      "size": 18800,
+      "sha256": "09e5e2a9dfb2d8ed78802bf18ce297bff54281a66ca18e0c23d69ca14f822a83"
+    },
+    {
+      "file": "audio_preprocessor_int8.tflite",
+      "repo": "tensorflow/tflite-micro",
+      "commit": "230c9d9531bd9b08d445b4f2ed0760756ffd5f78",
+      "path": "tensorflow/lite/micro/examples/micro_speech/models/audio_preprocessor_int8.tflite",
+      "url": "https://raw.githubusercontent.com/tensorflow/tflite-micro/230c9d9531bd9b08d445b4f2ed0760756ffd5f78/tensorflow/lite/micro/examples/micro_speech/models/audio_preprocessor_int8.tflite",
+      "size": 8772,
+      "sha256": "278949d197166fb8b580c0bdc94e902fb709fec0569dcf5766816b28285440e5"
+    },
+    {
+      "file": "TFLM-LICENSE",
+      "repo": "tensorflow/tflite-micro",
+      "commit": "230c9d9531bd9b08d445b4f2ed0760756ffd5f78",
+      "path": "LICENSE",
+      "url": "https://raw.githubusercontent.com/tensorflow/tflite-micro/230c9d9531bd9b08d445b4f2ed0760756ffd5f78/LICENSE",
+      "size": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "file": "schema.fbs",
+      "repo": "tensorflow/tensorflow",
+      "commit": "5bc9d26649cca274750ad3625bd93422617eed4b",
+      "path": "tensorflow/lite/schema/schema.fbs",
+      "url": "https://raw.githubusercontent.com/tensorflow/tensorflow/5bc9d26649cca274750ad3625bd93422617eed4b/tensorflow/lite/schema/schema.fbs",
+      "size": 42430,
+      "sha256": "db0f2166cdd9546387b497ed43f743b7c5b6951ed5bb099101f85170c0cd13f8"
+    },
+    {
+      "file": "SCHEMA-LICENSE",
+      "repo": "tensorflow/tensorflow",
+      "commit": "5bc9d26649cca274750ad3625bd93422617eed4b",
+      "path": "LICENSE",
+      "url": "https://raw.githubusercontent.com/tensorflow/tensorflow/5bc9d26649cca274750ad3625bd93422617eed4b/LICENSE",
+      "size": 13575,
+      "sha256": "71c6915d04265772a0339bed47276942c678b45cc01534210ebe6984fd1aec65"
+    }
+  ],
+  "flatc": {
+    "url": "https://github.com/google/flatbuffers/releases/download/v24.3.25/Windows.flatc.binary.zip",
+    "version": "flatc version 24.3.25",
+    "archive_sha256": "6455f5b6272b908dad073721e21b11720a9fddbae06e28b5c75f8ec458e7fe30",
+    "exe_sha256": "d7677a52ea25e93a526ccd27ea2487d92c592f2177f9d74d804834a3c835be0e"
+  }
+}

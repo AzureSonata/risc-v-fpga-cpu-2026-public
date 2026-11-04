@@ -1,0 +1,157 @@
+{
+  "model_id": "micro_speech-230c9",
+  "source": {
+    "repo": "tensorflow/tflite-micro",
+    "commit": "230c9d9531bd9b08d445b4f2ed0760756ffd5f78",
+    "file": "micro_speech_quantized.tflite",
+    "sha256": "09e5e2a9dfb2d8ed78802bf18ce297bff54281a66ca18e0c23d69ca14f822a83",
+    "bytes": 18800
+  },
+  "frontend": {
+    "file": "audio_preprocessor_int8.tflite",
+    "sha256": "278949d197166fb8b580c0bdc94e902fb709fec0569dcf5766816b28285440e5",
+    "bytes": 8772
+  },
+  "toolchain": {
+    "flatc": "flatc version 24.3.25",
+    "python": "3.12.10",
+    "numpy": "2.5.4",
+    "generator": "tools/kws/compile_openeye.py",
+    "generator_sha256": "ae43016ae4d0524d4cbe2c216d56c6282dcbb18a7aea317606d9f9746cead0cb"
+  },
+  "rom": {
+    "params_rom_bytes": 16688,
+    "params_rom_sha256": "4d9261c63d0aeee70ff391471e858c659a3afcc6e7224a984edb32067e4d8774",
+    "conv_weights": {
+      "base": 0,
+      "bytes": 640,
+      "sha256": "9ac4f7175bf5ad603a20b8f8d5a9c23d51f0315de384a9357b2ceb2fdda805b8"
+    },
+    "conv_bias_hw": {
+      "base": 640,
+      "bytes": 32,
+      "sha256": "7d3860d6c601fb1783abca184ee47c9b212d6420985a2802307fdc176fa67f4c"
+    },
+    "fc_weights": {
+      "base": 672,
+      "bytes": 16000,
+      "sha256": "496227ad77461d7fe293a8caf5eaafa247b34910a6c0993ed41cb508d5558049"
+    },
+    "fc_bias_hw": {
+      "base": 16672,
+      "bytes": 16,
+      "sha256": "10bb44c4fe8b90cf0048e50cf1ce9bc96f639a39e874bf5e59587d472a6b5b0e"
+    },
+    "quant_rom_bytes": 96,
+    "quant_rom_sha256": "ef6a0d0316a4034507396d437fbe28373fec2286899d6247b339baa9cc67ec12",
+    "source": {
+      "dw_weights_sha256": "13366dd7357b8b820caef27074268c8dd0b5fd42a9e09ce8ccd87533602930aa",
+      "dw_bias_sha256": "10cf1b3a1cc5f3f8c00d1b544103d0e43cf91475dfad7e078c27991ea0d0da6b",
+      "fc_weights_sha256": "496227ad77461d7fe293a8caf5eaafa247b34910a6c0993ed41cb508d5558049",
+      "fc_bias_sha256": "54ef7ed9dba09b9f345592a742c92ea033b01570fe43fac70fee022f5c01b5a1"
+    }
+  },
+  "descriptors": [
+    {
+      "index": 0,
+      "layer": "DEPTHWISE_CONV_2D",
+      "hardware_op": 1,
+      "bytes": 128,
+      "sha256": "d809116e2214e173e90443bcfbc40de607d9f7cb3d92d22d7a538ad2f7f805c0",
+      "crc32": 1728181068,
+      "fields": {
+        "kernel": [
+          10,
+          8
+        ],
+        "stride": [
+          2,
+          2
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "pad": [
+          4,
+          5,
+          3,
+          3
+        ],
+        "input_shape": [
+          49,
+          40,
+          1
+        ],
+        "output_shape": [
+          25,
+          20,
+          8
+        ],
+        "weight_layout": 1,
+        "accumulator_bits": 32,
+        "input_zp": -128,
+        "output_zp": -128,
+        "output_elements": 4000,
+        "input_bytes": 1960,
+        "output_bytes": 4000
+      }
+    },
+    {
+      "index": 1,
+      "layer": "FULLY_CONNECTED",
+      "hardware_op": 2,
+      "bytes": 128,
+      "sha256": "1d84c92460db5300395a5531b35af535a837d7dbbc8962d46907956a1874cabc",
+      "crc32": 2722679656,
+      "fields": {
+        "kernel": [
+          1,
+          1
+        ],
+        "stride": [
+          1,
+          1
+        ],
+        "dilation": [
+          1,
+          1
+        ],
+        "pad": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "input_shape": [
+          1,
+          1,
+          4000
+        ],
+        "output_shape": [
+          1,
+          1,
+          4
+        ],
+        "weight_layout": 2,
+        "accumulator_bits": 32,
+        "input_zp": -128,
+        "output_zp": 14,
+        "output_elements": 4,
+        "input_bytes": 4000,
+        "output_bytes": 4
+      }
+    }
+  ],
+  "model_crc32": 3666860500,
+  "activation_peak_bytes": 4000,
+  "evidence_status": {
+    "parser_manifest_pack": "PASS (this run)",
+    "unsupported_layer_count": 0,
+    "manifest_frozen": false,
+    "layer_golden_vs_tflm": "NOT_RUN (K2)",
+    "rtl_layer_output": "NOT_RUN (K4, owner 林文翔)",
+    "pds": "NOT_RUN",
+    "board": "NOT_RUN"
+  }
+}

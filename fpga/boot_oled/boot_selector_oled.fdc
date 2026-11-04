@@ -1,0 +1,149 @@
+# =============================================================================
+# boot_selector_oled.fdc - A4 second step: boot selector + READY OLED
+#
+# Identical pin plan to fpga/boot/boot_selector.fdc (27 MHz D18, KEY0/1/2, LEDs,
+# UART) plus the A5b/A6 OLED I2C pads: SCL = W24, SDA = AA25, open drain ON.
+# See the header of boot_selector.fdc for the full clock/key evidence trail.
+# =============================================================================
+create_clock -name {sys_clk} [get_ports {clk}] -period {37.037037} -waveform {0.000 18.5185185}
+
+# ---- 27 MHz system clock: core board oscillator (see header) ----------------
+define_attribute {p:clk} {PAP_IO_DIRECTION} {INPUT}
+define_attribute {p:clk} {PAP_IO_LOC} {D18}
+define_attribute {p:clk} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:clk} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:clk} {PAP_IO_NONE} {TRUE}
+#
+# Alternative: clock from the extension board's 27 MHz oscillator.
+# define_attribute {p:clk} {PAP_IO_LOC} {E17}
+
+# ---- user keys (active low) ------------------------------------------------
+define_attribute {p:key0_n} {PAP_IO_DIRECTION} {INPUT}
+define_attribute {p:key0_n} {PAP_IO_LOC} {C22}
+define_attribute {p:key0_n} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:key0_n} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:key0_n} {PAP_IO_NONE} {TRUE}
+
+define_attribute {p:key1_n} {PAP_IO_DIRECTION} {INPUT}
+define_attribute {p:key1_n} {PAP_IO_LOC} {C23}
+define_attribute {p:key1_n} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:key1_n} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:key1_n} {PAP_IO_NONE} {TRUE}
+
+define_attribute {p:key2_n} {PAP_IO_DIRECTION} {INPUT}
+define_attribute {p:key2_n} {PAP_IO_LOC} {B22}
+define_attribute {p:key2_n} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:key2_n} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:key2_n} {PAP_IO_NONE} {TRUE}
+
+# ---- board USB UART (optional status channel) ------------------------------
+define_attribute {p:uart_rx} {PAP_IO_DIRECTION} {INPUT}
+define_attribute {p:uart_rx} {PAP_IO_LOC} {B24}
+define_attribute {p:uart_rx} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:uart_rx} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:uart_rx} {PAP_IO_NONE} {TRUE}
+
+define_attribute {p:uart_tx} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:uart_tx} {PAP_IO_LOC} {C24}
+define_attribute {p:uart_tx} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:uart_tx} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:uart_tx} {PAP_IO_DRIVE} {8}
+define_attribute {p:uart_tx} {PAP_IO_NONE} {TRUE}
+define_attribute {p:uart_tx} {PAP_IO_SLEW} {SLOW}
+
+# ---- status LEDs (active high) ---------------------------------------------
+define_attribute {p:led[7]} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:led[7]} {PAP_IO_LOC} {B17}
+define_attribute {p:led[7]} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:led[7]} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:led[7]} {PAP_IO_DRIVE} {8}
+define_attribute {p:led[7]} {PAP_IO_NONE} {TRUE}
+define_attribute {p:led[7]} {PAP_IO_SLEW} {SLOW}
+
+define_attribute {p:led[6]} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:led[6]} {PAP_IO_LOC} {C17}
+define_attribute {p:led[6]} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:led[6]} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:led[6]} {PAP_IO_DRIVE} {8}
+define_attribute {p:led[6]} {PAP_IO_NONE} {TRUE}
+define_attribute {p:led[6]} {PAP_IO_SLEW} {SLOW}
+
+define_attribute {p:led[5]} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:led[5]} {PAP_IO_LOC} {A18}
+define_attribute {p:led[5]} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:led[5]} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:led[5]} {PAP_IO_DRIVE} {8}
+define_attribute {p:led[5]} {PAP_IO_NONE} {TRUE}
+define_attribute {p:led[5]} {PAP_IO_SLEW} {SLOW}
+
+define_attribute {p:led[4]} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:led[4]} {PAP_IO_LOC} {A17}
+define_attribute {p:led[4]} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:led[4]} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:led[4]} {PAP_IO_DRIVE} {8}
+define_attribute {p:led[4]} {PAP_IO_NONE} {TRUE}
+define_attribute {p:led[4]} {PAP_IO_SLEW} {SLOW}
+
+define_attribute {p:led[3]} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:led[3]} {PAP_IO_LOC} {E18}
+define_attribute {p:led[3]} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:led[3]} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:led[3]} {PAP_IO_DRIVE} {8}
+define_attribute {p:led[3]} {PAP_IO_NONE} {TRUE}
+define_attribute {p:led[3]} {PAP_IO_SLEW} {SLOW}
+
+define_attribute {p:led[2]} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:led[2]} {PAP_IO_LOC} {C19}
+define_attribute {p:led[2]} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:led[2]} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:led[2]} {PAP_IO_DRIVE} {8}
+define_attribute {p:led[2]} {PAP_IO_NONE} {TRUE}
+define_attribute {p:led[2]} {PAP_IO_SLEW} {SLOW}
+
+define_attribute {p:led[1]} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:led[1]} {PAP_IO_LOC} {C18}
+define_attribute {p:led[1]} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:led[1]} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:led[1]} {PAP_IO_DRIVE} {8}
+define_attribute {p:led[1]} {PAP_IO_NONE} {TRUE}
+define_attribute {p:led[1]} {PAP_IO_SLEW} {SLOW}
+
+define_attribute {p:led[0]} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:led[0]} {PAP_IO_LOC} {A20}
+define_attribute {p:led[0]} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:led[0]} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:led[0]} {PAP_IO_DRIVE} {8}
+define_attribute {p:led[0]} {PAP_IO_NONE} {TRUE}
+define_attribute {p:led[0]} {PAP_IO_SLEW} {SLOW}
+
+#
+# ---- OLED SSD1306 I2C (A5b/A6, panel on the extension base board) -----------
+# Evidence: evidence/MULTIBOOT_P0/OLED_DISPLAY/verification/board/ref/oled_ssd1306.fdc
+#   + OLED_HISTORY.md + commit ffcc65f3 fpga/constraints/kws_ext_io_test.fdc
+#   SCL = J3-35 = W24 (BANK L6), SDA = J3-33 = AA25 (BANK L6).
+# Open drain: the RTL only ever pulls low and releases to high-Z; the pull-ups
+# live on the panel module, so PAP_IO_OPEN_DRAIN ON is mandatory here.
+define_attribute {p:oled_scl} {PAP_IO_DIRECTION}  {INOUT}
+define_attribute {p:oled_scl} {PAP_IO_LOC}        {W24}
+define_attribute {p:oled_scl} {PAP_IO_VCCIO}      {3.3}
+define_attribute {p:oled_scl} {PAP_IO_STANDARD}   {LVCMOS33}
+define_attribute {p:oled_scl} {PAP_IO_DRIVE}      {4}
+define_attribute {p:oled_scl} {PAP_IO_SLEW}       {SLOW}
+define_attribute {p:oled_scl} {PAP_IO_NONE}       {TRUE}
+
+define_attribute {p:oled_sda} {PAP_IO_DIRECTION}  {INOUT}
+define_attribute {p:oled_sda} {PAP_IO_LOC}        {AA25}
+define_attribute {p:oled_sda} {PAP_IO_VCCIO}      {3.3}
+define_attribute {p:oled_sda} {PAP_IO_STANDARD}   {LVCMOS33}
+define_attribute {p:oled_sda} {PAP_IO_DRIVE}      {4}
+define_attribute {p:oled_sda} {PAP_IO_SLEW}       {SLOW}
+define_attribute {p:oled_sda} {PAP_IO_NONE}       {TRUE}
+# ---- asynchronous inputs ---------------------------------------------------
+# Keys and the UART RX line are asynchronous to sys_clk; they are synchronized
+# inside the RTL (2 FF) and are not timed against the clock.
+set_false_path -from [get_ports {key0_n key1_n key2_n uart_rx}]
+set_input_delay  5.0 -clock [get_clocks {sys_clk}] [get_ports {oled_scl oled_sda}]
+set_output_delay 5.0 -clock [get_clocks {sys_clk}] [get_ports {oled_scl oled_sda}]
+
+# ---- output delays (board-level estimates, same convention as W3/KWS FDC) ---
+set_output_delay -clock [get_clocks {sys_clk}] 5.0 [get_ports {led[*] uart_tx}]

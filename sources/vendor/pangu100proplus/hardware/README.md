@@ -1,0 +1,11 @@
+# Pangu100Pro+ 板卡资料
+
+以下文件随公开快照保留原样，供引脚和板级连接查阅。项目成员确认允许随本项目发布；原文件中的权利声明和厂商条款继续适用。
+
+| 文件 | 字节数 | SHA-256 |
+|---|---:|---|
+| base-pinout.pdf | 1,836,562 | 24BEEF76B455B7CE81CB210EB2AF2E53BACE16F2BD572D81C1017035FA457C6D |
+| base-v1.2-schematic.sch | 309,885 | EB49C64FDAF3A08E4B9A8AFFCEAB7A63CA7754EF9DD67AD9EC28664AAD1A864F |
+| core-pinout.pdf | 1,933,436 | 12463B2C668549D4D6A9A9132796124BD474236F84F13B6B1BC398A0CDF3DEB8 |
+
+本项目板卡为 Pangu100Pro+ / PG2L100H-6IFBG676，Flash 为 XTX XT25F128F。文件具体修订来源未在快照中确认。

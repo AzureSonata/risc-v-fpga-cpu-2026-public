@@ -1,0 +1,27 @@
+# PDS 2xxx build artifacts (not source)
+compile/
+synthesize/
+device_map/
+constraint_check/
+place_route/
+report_timing/
+report_power/
+generate_netlist/
+generate_bitstream/
+logbackup/
+logs/
+*.adf
+*.dmr
+*.snr
+*.vm
+*.db
+*.pcf
+*.prt
+*.prr
+*.bgr
+*.sbit
+*.smsk
+flow.log
+run.log
+impl.tcl
+multiseed_summary.csv

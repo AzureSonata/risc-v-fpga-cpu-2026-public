@@ -1,0 +1,29 @@
+# KEY2 → CPU Z1 最终镜像 CoreMark 实测
+
+日期：2026-11-04。镜像链：Flash Golden（P 修复）→ KEY1 READY → KEY2 warmboot → CPU Z1 → CoreMark 4096。
+
+## UART 输出摘录
+
+coremark.
+CoreMark Size    : 666
+Total ticks      : 1433935241
+Total time (secs): 14
+Iterations/Sec   : 292
+Iterations       : 4096
+Compiler version : GCC 13.2.0
+Compiler flags   : -O2 -march=rv32im_zicsr -mabi=ilp32 -msmall-data-limit=0 -mstrict-align -fno-builtin -ffreestanding -fno-common -ffunction-sections -fdata-sections
+Memory location  : STATIC / D SRAM
+seedcrc          : 0xe9f5
+[0]crclist       : 0xe714
+[0]crcmatrix     : 0x1fd7
+[0]crcstate      : 0x8e3a
+[0]crcfinal      : 0x7b65
+Correct operation validated.
+PORT-RAW ticks=1433935241 timer_hz=100058824 timer_bits=64
+
+## 结果说明
+
+- CPU 频率：95.29411765 MHz；CoreMark/MHz：2.856475。
+- CRC 值与已验证 Z1 板测一致。
+- timer_hz 字段与 CPU 频率元数据不一致；因此 Total time 和 Iterations/Sec 的整数打印不作为精确墙钟或吞吐量数据。
+- 串口设备标识已从公开摘录中省略。

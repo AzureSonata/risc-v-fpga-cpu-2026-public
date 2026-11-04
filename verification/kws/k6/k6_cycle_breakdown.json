@@ -1,0 +1,50 @@
+{
+  "item": "K6-04",
+  "scope": "SIM；真几何 49x40 -> 25x20x8 (4000 B) -> FC 4；单个完整 job",
+  "geometry": {
+    "in": "49x40 int8 (1960 B)",
+    "dw_kernel": "10x8 stride2 pad 4/3",
+    "dw_out": "25x20x8 (4000 B)",
+    "fc": "4000 -> 4"
+  },
+  "boundaries": {
+    "to_feature": "第一个特征写事务开始 → 第 1,960 B 特征写入完成",
+    "to_start": "特征完成 → CTRL.START 被接受（**含**一次 INPUT_CRC32 寄存器读）",
+    "to_start_nocrc": "CRC 读完成 → START（真实启动开销；CRC 读本身被 crc32_buf 反压约 1,961 拍，单列为 crc_read_block）",
+    "busy": "START 接受 → done 对总线可见",
+    "logit_tail": "done 可见 → 4 个 logit 读完",
+    "end_to_end": "第一个特征写事务开始 → logits 读完"
+  },
+  "cycles": {
+    "to_feature": 490,
+    "to_start": 1964,
+    "to_start_nocrc": 2,
+    "busy": 352022,
+    "logit_tail": 3,
+    "end_to_end": 354479,
+    "crc_read_block": 1962
+  },
+  "cross_check": {
+    "kernel_cycle_count": 352022,
+    "busy_minus_kernel": 0,
+    "tolerance": 64,
+    "invariant": "to_feature + to_start + busy + logit_tail == end_to_end"
+  },
+  "how": "TB 侧拍计数器；边界只由外部总线事务与 done 可见性定义，不复用 DUT 内部状态当期望值；边界在跑之前已冻结（见 TB 注释）",
+  "witness": {
+    "bus": "全部特征写入/寄存器访问都是本 TB 主动发起的总线事务（bus_xfer 检查 req_ready 先于握手）",
+    "irq": "`irq` 引脚 + IRQ_EN@0x00C / IRQ_PENDING@0x044 / IRQ_CLR@0x010 三个寄存器事务：R7 使能（且 START 前必为低）→ R8 首个 irq=1 的拍号落在 busy 窗口内（正常完成时 done 后 1 拍）→ R9 pending 读出 1、清零后电平必掉。判据只用引脚与寄存器，不引用 irq_q/irq_en 内部信号",
+    "gpio": "本台 DUT 是 `kws_mmio` 独立模块，**没有 GPIO**；GPIO 见证在 SoC 级台（tb_kws_cpu_smoke：gpio=0x3219，5038 拍）与短缓冲负控（GPIO 保持 0）里，不重复记在本台"
+  },
+  "not_included": [
+    "host 前端 PCM→特征时间",
+    "PDS 资源/时序",
+    "板级"
+  ],
+  "negative_controls": {
+    "shortbuf_1959B": "见 k6_shortbuf_report.json（少写 1 字节 ⇒ traps=1、GPIO 保持 0）",
+    "start_not_accepted": "本台 R1/start_count 判据：START 未被接受即 FAIL",
+    "lost_done": "guard 超时即 FAIL（不会假完成）"
+  },
+  "verdict": "PASS"
+}

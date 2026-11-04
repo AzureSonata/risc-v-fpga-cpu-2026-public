@@ -1,0 +1,182 @@
+# Pangu100Pro+ (MES2L676-100HP), PG2L100H-676 / MES-FMC-LPC-IO.
+# Candidate connector/ball pairs are cross-checked against the vendor manuals:
+#   I2S and relay/arm: MES-FMC-LPC-IO manual v1.1, J2 table, pp. 7-8.
+#   Optional OLED candidates: J3-35/W24 and J3-33/AA25 (not exposed by this top).
+#   FMC ball map and bank voltage: Pangu100Pro+ hardware manual v1.2, pp. 51-54.
+# LVCMOS33 / 3.3 V is the requested target for Bank L6. Verify actual L6_VADJ
+# before physical connection or programming; these constraints do not measure it.
+
+create_clock -name {cpu_clk} [get_ports {clk}] -period {37.037037} -waveform {0.000 18.5185185}
+
+# Board core 27 MHz reference and active-low KEY0 reset.
+define_attribute {p:clk} {PAP_IO_DIRECTION} {INPUT}
+define_attribute {p:clk} {PAP_IO_LOC} {D18}
+define_attribute {p:clk} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:clk} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:clk} {PAP_IO_NONE} {TRUE}
+
+define_attribute {p:rstn} {PAP_IO_DIRECTION} {INPUT}
+define_attribute {p:rstn} {PAP_IO_LOC} {C22}
+define_attribute {p:rstn} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:rstn} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:rstn} {PAP_IO_NONE} {TRUE}
+
+# SEN0327 24-bit I2S, 16 kHz frame rate, 32-bit slots.
+# J2-5 / LA00_N_CC / Y21: BCLK output.
+define_attribute {p:mic_bclk} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:mic_bclk} {PAP_IO_LOC} {Y21}
+define_attribute {p:mic_bclk} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:mic_bclk} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:mic_bclk} {PAP_IO_DRIVE} {8}
+define_attribute {p:mic_bclk} {PAP_IO_NONE} {TRUE}
+define_attribute {p:mic_bclk} {PAP_IO_SLEW} {SLOW}
+
+# J2-7 / LA02_N / T15: LRCK output.
+define_attribute {p:mic_lrck} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:mic_lrck} {PAP_IO_LOC} {T15}
+define_attribute {p:mic_lrck} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:mic_lrck} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:mic_lrck} {PAP_IO_DRIVE} {8}
+define_attribute {p:mic_lrck} {PAP_IO_NONE} {TRUE}
+define_attribute {p:mic_lrck} {PAP_IO_SLEW} {SLOW}
+
+# J2-9 / LA04_N / W18: microphone serial-data input.
+define_attribute {p:mic_sd} {PAP_IO_DIRECTION} {INPUT}
+define_attribute {p:mic_sd} {PAP_IO_LOC} {W18}
+define_attribute {p:mic_sd} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:mic_sd} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:mic_sd} {PAP_IO_NONE} {TRUE}
+
+# SONGLE SRD-05VDC-SL-C active-high relay command; physical relay/module
+# compatibility with a 3.3 V LVCMOS output remains an electrical board check.
+# J2-11 / LA07_N / U20: fan_enable, high means run.
+define_attribute {p:fan_enable} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:fan_enable} {PAP_IO_LOC} {U20}
+define_attribute {p:fan_enable} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:fan_enable} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:fan_enable} {PAP_IO_DRIVE} {8}
+define_attribute {p:fan_enable} {PAP_IO_NONE} {TRUE}
+define_attribute {p:fan_enable} {PAP_IO_SLEW} {SLOW}
+
+# J2-12 / LA07_P / T20: external high-level watchdog arm input.
+define_attribute {p:estop_arm} {PAP_IO_DIRECTION} {INPUT}
+define_attribute {p:estop_arm} {PAP_IO_LOC} {T20}
+define_attribute {p:estop_arm} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:estop_arm} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:estop_arm} {PAP_IO_NONE} {TRUE}
+
+# Board USB-UART (Pangu100Pro+ hardware manual v1.2, p.39).
+define_attribute {p:uart_rx} {PAP_IO_DIRECTION} {INPUT}
+define_attribute {p:uart_rx} {PAP_IO_LOC} {B24}
+define_attribute {p:uart_rx} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:uart_rx} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:uart_rx} {PAP_IO_NONE} {TRUE}
+define_attribute {p:uart_tx} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:uart_tx} {PAP_IO_LOC} {C24}
+define_attribute {p:uart_tx} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:uart_tx} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:uart_tx} {PAP_IO_DRIVE} {8}
+define_attribute {p:uart_tx} {PAP_IO_NONE} {TRUE}
+define_attribute {p:uart_tx} {PAP_IO_SLEW} {SLOW}
+
+# Core-board LEDs; LED7 is the watchdog-trip indicator in this wrapper.
+define_attribute {p:led[7]} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:led[7]} {PAP_IO_LOC} {B17}
+define_attribute {p:led[7]} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:led[7]} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:led[7]} {PAP_IO_DRIVE} {8}
+define_attribute {p:led[7]} {PAP_IO_NONE} {TRUE}
+define_attribute {p:led[7]} {PAP_IO_SLEW} {SLOW}
+define_attribute {p:led[6]} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:led[6]} {PAP_IO_LOC} {C17}
+define_attribute {p:led[6]} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:led[6]} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:led[6]} {PAP_IO_DRIVE} {8}
+define_attribute {p:led[6]} {PAP_IO_NONE} {TRUE}
+define_attribute {p:led[6]} {PAP_IO_SLEW} {SLOW}
+define_attribute {p:led[5]} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:led[5]} {PAP_IO_LOC} {A18}
+define_attribute {p:led[5]} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:led[5]} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:led[5]} {PAP_IO_DRIVE} {8}
+define_attribute {p:led[5]} {PAP_IO_NONE} {TRUE}
+define_attribute {p:led[5]} {PAP_IO_SLEW} {SLOW}
+define_attribute {p:led[4]} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:led[4]} {PAP_IO_LOC} {A17}
+define_attribute {p:led[4]} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:led[4]} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:led[4]} {PAP_IO_DRIVE} {8}
+define_attribute {p:led[4]} {PAP_IO_NONE} {TRUE}
+define_attribute {p:led[4]} {PAP_IO_SLEW} {SLOW}
+define_attribute {p:led[3]} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:led[3]} {PAP_IO_LOC} {E18}
+define_attribute {p:led[3]} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:led[3]} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:led[3]} {PAP_IO_DRIVE} {8}
+define_attribute {p:led[3]} {PAP_IO_NONE} {TRUE}
+define_attribute {p:led[3]} {PAP_IO_SLEW} {SLOW}
+define_attribute {p:led[2]} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:led[2]} {PAP_IO_LOC} {C19}
+define_attribute {p:led[2]} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:led[2]} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:led[2]} {PAP_IO_DRIVE} {8}
+define_attribute {p:led[2]} {PAP_IO_NONE} {TRUE}
+define_attribute {p:led[2]} {PAP_IO_SLEW} {SLOW}
+define_attribute {p:led[1]} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:led[1]} {PAP_IO_LOC} {C18}
+define_attribute {p:led[1]} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:led[1]} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:led[1]} {PAP_IO_DRIVE} {8}
+define_attribute {p:led[1]} {PAP_IO_NONE} {TRUE}
+define_attribute {p:led[1]} {PAP_IO_SLEW} {SLOW}
+define_attribute {p:led[0]} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:led[0]} {PAP_IO_LOC} {A20}
+define_attribute {p:led[0]} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:led[0]} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:led[0]} {PAP_IO_DRIVE} {8}
+define_attribute {p:led[0]} {PAP_IO_NONE} {TRUE}
+define_attribute {p:led[0]} {PAP_IO_SLEW} {SLOW}
+
+# Follow the T8 board-project timing convention: the reset and static arm strap
+# are asynchronous; 5 ns external IO delays are estimates used for PDS timing
+# visibility, not measured PCB or microphone timing values.
+set_false_path -from [get_ports {rstn estop_arm}]
+set_input_delay  -clock [get_clocks {cpu_clk}] 5.0 [get_ports {uart_rx mic_sd}]
+set_output_delay -clock [get_clocks {cpu_clk}] 5.0 [get_ports {uart_tx led[*] mic_bclk mic_lrck fan_enable}]
+
+# ---------------------------------------------------------------------------
+# App A2 OLED（DFR0486 / SSD1306 128x64，I2C，开漏）
+#
+# 合入自 A6 已验证片段 fpga/constraints/oled_ssd1306.fdc（feat/mrev-oled-20261104
+# @ 60587217），引脚来源为上板验证过的外设自测工程：
+#   SCL = J3-35 = W24（BANK L6）
+#   SDA = J3-33 = AA25（BANK L6）
+# 电气要求：I2C 开漏，FPGA 侧只拉低、高电平由模块侧上拉给出；BANK L6 的 VADJ
+# 仍需在实物上用万用表确认，本文件不宣称 3.3 V 已实测。
+# 时序口径与 A6 保持一致（cpu_clk 相对 5.0 ns），不改变已有位流的时序语义。
+# ---------------------------------------------------------------------------
+define_attribute {p:oled_scl} {PAP_IO_DIRECTION}  {INOUT}
+define_attribute {p:oled_scl} {PAP_IO_LOC}        {W24}
+define_attribute {p:oled_scl} {PAP_IO_VCCIO}      {3.3}
+define_attribute {p:oled_scl} {PAP_IO_STANDARD}   {LVCMOS33}
+# PDS 2022.2 rejects PAP_IO_OPEN_DRAIN for DIRECTION INOUT + LVCMOS33
+# (ConstraintEditor-0049). The pads module only drives 0 or Z (open-drain
+# style), so a tri-state LVCMOS33 buffer is equivalent; the OLED module
+# provides the I2C pull-ups.
+# define_attribute {p:oled_scl} {PAP_IO_OPEN_DRAIN} {ON}
+define_attribute {p:oled_scl} {PAP_IO_DRIVE}      {4}
+define_attribute {p:oled_scl} {PAP_IO_SLEW}       {SLOW}
+define_attribute {p:oled_scl} {PAP_IO_NONE}       {TRUE}
+
+define_attribute {p:oled_sda} {PAP_IO_DIRECTION}  {INOUT}
+define_attribute {p:oled_sda} {PAP_IO_LOC}        {AA25}
+define_attribute {p:oled_sda} {PAP_IO_VCCIO}      {3.3}
+define_attribute {p:oled_sda} {PAP_IO_STANDARD}   {LVCMOS33}
+# see the oled_scl note above: OPEN_DRAIN unsupported for INOUT LVCMOS33
+# define_attribute {p:oled_sda} {PAP_IO_OPEN_DRAIN} {ON}
+define_attribute {p:oled_sda} {PAP_IO_DRIVE}      {4}
+define_attribute {p:oled_sda} {PAP_IO_SLEW}       {SLOW}
+define_attribute {p:oled_sda} {PAP_IO_NONE}       {TRUE}
+
+set_input_delay  5.0 -clock [get_clocks {cpu_clk}] [get_ports {oled_scl oled_sda}]
+set_output_delay 5.0 -clock [get_clocks {cpu_clk}] [get_ports {oled_scl oled_sda}]

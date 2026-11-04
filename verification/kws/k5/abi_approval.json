@@ -1,0 +1,32 @@
+{
+  "status": "APPROVED",
+  "abi_approved": true,
+  "version": "KWS-MMIO-ABI-v1 + KWS-ESTOP-ICR-001@2026-10-31",
+  "revision": "docs/architecture/RFC-KWS-MMIO-ABI.md@df0ae482d1748e012e99a690bd9583f9794f9b48; docs/architecture/KWS_ESTOP_ICR_20261027.md@78d59b11b52c975fd17840173c757a55169f1ca9",
+  "sha": "df0ae482d1748e012e99a690bd9583f9794f9b48",
+  "rfc_blob_sha": "df0ae482d1748e012e99a690bd9583f9794f9b48",
+  "icr_blob_sha": "78d59b11b52c975fd17840173c757a55169f1ca9",
+  "approved_at": "2026-10-31",
+  "approved_by": "康文（项目负责人；明确授权 Codex 记录 owner 级合同采用）",
+  "approval_scope": [
+    "RFC-KWS-MMIO-ABI A1-A12",
+    "KWS-ESTOP-ICR-001",
+    "T7 SoC/IP implementation and simulation"
+  ],
+  "approvers": [
+    {
+      "name": "康文",
+      "role": "project_owner",
+      "recorded_by": "Codex under explicit delegation on 2026-10-31"
+    }
+  ],
+  "producer_consumer_personal_signatures": {
+    "claimed": false,
+    "note": "本记录不代签或伪称 producer/consumer 个人确认；实际跨工作线交接仍按治理对精确版本记录双方确认。"
+  },
+  "limitations": [
+    "批准合同用于后续实现，不表示 RTL/SoC/K6 已通过。",
+    "本次未运行测试。",
+    "不批准板级引脚、电压、Bank、外部急停电路、bitstream 或实物验收。"
+  ]
+}

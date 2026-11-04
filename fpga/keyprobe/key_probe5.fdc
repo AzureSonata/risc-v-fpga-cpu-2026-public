@@ -1,0 +1,73 @@
+# =============================================================================
+# key_probe5.fdc - A4e key-pin probe FDC, 5 user keys (MULTIBOOT P2)
+#
+# Purpose: minimal bring-up design that only reports the raw/stable levels of
+#          KEY0..KEY4 over the board UART, so the user can press each key
+#          and we can confirm the physical silkscreen key order / wiring.
+#
+# Device: PG2L100H-6-FBG676 (MES2L676-100HP core board on the MES base board)
+# Clock : 27 MHz single-ended oscillator, core board = D18
+#         (same choice and evidence as fpga/boot/boot_selector.fdc: core board
+#         hardware guide 2.1.2.2.3.2 "27MHz 单端时钟" page 18 -> D18; the
+#         extension board's own oscillator is E17).
+# Keys  : active low, extension base board (hardware guide 2.1.3.4.1 page 46):
+#         KEY0=C22, KEY1=C23, KEY2=B22.
+# UART  : board USB-UART, TX = C24, 115200 8N1 (divider 234 @ 27 MHz).
+#
+# This design has NO reset pin (internal power-on counter only), so a key stuck
+# low at power-up cannot hold the design in reset.
+# =============================================================================
+
+create_clock -name {sys_clk} [get_ports {clk}] -period {37.037037} -waveform {0.000 18.5185185}
+
+# ---- 27 MHz system clock (core board oscillator) ----------------------------
+define_attribute {p:clk} {PAP_IO_DIRECTION} {INPUT}
+define_attribute {p:clk} {PAP_IO_LOC} {D18}
+define_attribute {p:clk} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:clk} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:clk} {PAP_IO_NONE} {TRUE}
+
+# ---- user keys (active low, asynchronous) ----------------------------------
+define_attribute {p:key0_n} {PAP_IO_DIRECTION} {INPUT}
+define_attribute {p:key0_n} {PAP_IO_LOC} {C22}
+define_attribute {p:key0_n} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:key0_n} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:key0_n} {PAP_IO_NONE} {TRUE}
+
+define_attribute {p:key1_n} {PAP_IO_DIRECTION} {INPUT}
+define_attribute {p:key1_n} {PAP_IO_LOC} {C23}
+define_attribute {p:key1_n} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:key1_n} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:key1_n} {PAP_IO_NONE} {TRUE}
+
+define_attribute {p:key2_n} {PAP_IO_DIRECTION} {INPUT}
+define_attribute {p:key2_n} {PAP_IO_LOC} {B22}
+define_attribute {p:key2_n} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:key2_n} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:key2_n} {PAP_IO_NONE} {TRUE}
+
+define_attribute {p:key3_n} {PAP_IO_DIRECTION} {INPUT}
+define_attribute {p:key3_n} {PAP_IO_LOC} {A22}
+define_attribute {p:key3_n} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:key3_n} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:key3_n} {PAP_IO_NONE} {TRUE}
+
+define_attribute {p:key4_n} {PAP_IO_DIRECTION} {INPUT}
+define_attribute {p:key4_n} {PAP_IO_LOC} {B20}
+define_attribute {p:key4_n} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:key4_n} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:key4_n} {PAP_IO_NONE} {TRUE}
+# ---- board USB UART TX -----------------------------------------------------
+define_attribute {p:uart_tx} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:uart_tx} {PAP_IO_LOC} {C24}
+define_attribute {p:uart_tx} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:uart_tx} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:uart_tx} {PAP_IO_DRIVE} {8}
+define_attribute {p:uart_tx} {PAP_IO_NONE} {TRUE}
+define_attribute {p:uart_tx} {PAP_IO_SLEW} {SLOW}
+
+# ---- asynchronous inputs ---------------------------------------------------
+set_false_path -from [get_ports {key0_n key1_n key2_n key3_n key4_n}]
+
+# ---- output delay (board-level estimate, same convention as boot_selector) --
+set_output_delay -clock [get_clocks {sys_clk}] 5.0 [get_ports {uart_tx}]

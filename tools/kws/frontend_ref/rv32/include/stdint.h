@@ -1,0 +1,28 @@
+/* Minimal freestanding <stdint.h> for the RV32I cross-compile probe (ilp32). */
+#ifndef KWS_RV32_STDINT_H
+#define KWS_RV32_STDINT_H
+typedef signed char int8_t;
+typedef unsigned char uint8_t;
+typedef short int16_t;
+typedef unsigned short uint16_t;
+typedef int int32_t;
+typedef unsigned int uint32_t;
+typedef long long int64_t;
+typedef unsigned long long uint64_t;
+typedef unsigned int size_t;
+typedef int intptr_t;
+typedef unsigned int uintptr_t;
+typedef int int_fast32_t;
+#define INT16_MIN (-32768)
+#define INT16_MAX 32767
+#define INT32_MIN (-2147483647 - 1)
+#define INT32_MAX 2147483647
+#define UINT32_MAX 4294967295u
+#define SIZE_MAX 4294967295u
+#define UINT32_C(x) x##u
+#define UINT64_C(x) x##ull
+#define INT32_C(x) x
+#ifndef NULL
+#define NULL 0
+#endif
+#endif

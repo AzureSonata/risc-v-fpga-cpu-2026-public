@@ -1,0 +1,124 @@
+{
+  "tool": "iverilog (PATH)",
+  "toolchain": {
+    "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0)",
+    "vvp": "Icarus Verilog runtime version 13.0 (stable) (v13_0)"
+  },
+  "tb": "verification/kws/k6/tb_kws_mmio_real.sv",
+  "top": "tb_kws_mmio_real",
+  "geometry": {
+    "in": "49x40 int8 (1960 B)",
+    "dw_kernel": "10x8 stride2 pad 4/3",
+    "dw_out": "25x20x8 (4000 B)",
+    "fc": "4000 -> 4"
+  },
+  "vectors": "verification/kws/k4/vectors (作者的封存向量，未重生成)",
+  "criteria": {
+    "R1": "终态 done=1 / err=0 / busy=0",
+    "R2": "CYCLE_COUNT ≈ 352,020（±32）",
+    "R3": "结果 RAM [0..3999] 与 golden_dw 逐字节相同",
+    "R4": "0x800 = golden_fc（RAM 偏移 4000）",
+    "R5": "0x800 != buffer[0..3]（映射不是恒等）",
+    "R6": "INPUT_CRC32 = 独立 zlib CRC",
+    "R7": "IRQ_EN 读回 1，且 START 前 irq 必为低",
+    "R8": "IRQ 见证：首个 irq=1 落在 busy 窗口内（正常完成 done 后 1 拍）",
+    "R9": "IRQ_PENDING 读出 1；写 CLR 后电平必掉、pending 读回 0"
+  },
+  "runs": {
+    "baseline": {
+      "result": "PASS",
+      "cases": 502,
+      "fails": 0,
+      "passed": [
+        "R0",
+        "R7",
+        "R6",
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "R5",
+        "R8",
+        "R9",
+        "R9",
+        "SEG"
+      ],
+      "fail_lines": [],
+      "cycle_count": 352022,
+      "logit_word": "7f6c6d80",
+      "segments": {
+        "to_feature": 490,
+        "to_start": 1964,
+        "to_start_nocrc": 2,
+        "busy": 352022,
+        "logit_tail": 3,
+        "end_to_end": 354479,
+        "crc_read_block": 1962
+      }
+    },
+    "NEGCTL_DWOH_SYM": {
+      "result": "FAIL",
+      "cases": 502,
+      "fails": 6,
+      "passed": [
+        "R0",
+        "R7",
+        "R6",
+        "R5",
+        "R8",
+        "R9",
+        "R9"
+      ],
+      "fail_lines": [
+        "FAIL  R1 终态异常 done=0 err=1 busy=0 code=2 guard=4",
+        "FAIL  R2 CYCLE_COUNT=3 偏离 352020 超过 ±32",
+        "FAIL  R3 DW 输出 4000/4000 字节不符，首个坏点 0（RTL 0 vs golden 10）",
+        "FAIL  bus: 40001800 wr=0 err=1 expect 0",
+        "FAIL  R4 0x800 读回 00000000，golden 7f6c6d80（-128 109 108 127）",
+        "FAIL  SEG busy=4 与核内 CYCLE_COUNT=3 相差超过 ±64（边界口径不一致）"
+      ],
+      "cycle_count": null,
+      "logit_word": null,
+      "segments": {
+        "to_feature": 490,
+        "to_start": 1964,
+        "to_start_nocrc": 2,
+        "busy": 4,
+        "logit_tail": 2,
+        "end_to_end": 2460,
+        "crc_read_block": 1962
+      },
+      "expected_red_case": "R1",
+      "why": "oh/ow 退回对称公式 ⇒ 22x18 ⇒ dw_bytes=3168 != fc_nin=4000 ⇒ 核以 E_BUFFER=2 拒绝",
+      "caught": true,
+      "caught_by_expected_case": true,
+      "first_fail": "FAIL  R1 终态异常 done=0 err=1 busy=0 code=2 guard=4"
+    }
+  },
+  "verdict": "PASS",
+  "scope": "SIM only；真实几何 + 真实 params 的**单个完整 job**；走 kws_mmio 的寄存器/buffer 窗/结果窗，不是直接例化核",
+  "answers": {
+    "4000_offset_verified": true,
+    "note": "0x800 读出的是 FC logits（RAM 偏移 4000），且与 golden_fc 逐字节相同；同时 R5 证明它不是 buffer[0..3] 的别名",
+    "cycle_delta_vs_author": 2
+  },
+  "not_run": [
+    "CPU 程序级跑真实几何（本台用总线直接写 buffer，不经过 CPU 取指/访存）",
+    "PCM -> 前端 -> 49 帧窗口（K6-B 三/四/五级）",
+    "多帧连续 job / 背靠背 START 的吞吐",
+    "综合 / 时序 / 位流 / 板级",
+    "跨机复现（本机 Icarus 13.0 单次结果）"
+  ],
+  "k6_04": {
+    "artifact": "verification/kws/k6/k6_cycle_breakdown.json",
+    "cycles": {
+      "to_feature": 490,
+      "to_start": 1964,
+      "to_start_nocrc": 2,
+      "busy": 352022,
+      "logit_tail": 3,
+      "end_to_end": 354479,
+      "crc_read_block": 1962
+    }
+  }
+}

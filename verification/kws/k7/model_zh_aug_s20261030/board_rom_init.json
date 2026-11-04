@@ -1,0 +1,132 @@
+{
+  "artifact": "board_rom_init.json",
+  "status": "OK",
+  "failures": [],
+  "vectors_dir": "verification/kws/k7/model_zh_aug_s20261030/vectors",
+  "out_dir": "verification/kws/k7/model_zh_aug_s20261030/board_rom",
+  "roms": [
+    {
+      "name": "dw_w",
+      "depth": 1024,
+      "width": 8,
+      "role": "DW weight (640 B used of 1024)",
+      "sources": [
+        {
+          "file": "dw_w.hex",
+          "lines": 640,
+          "sha256": "7ec107f777ce46a73aad719575504047a2e3d478a1be06295d388a37f0a52e90"
+        }
+      ],
+      "expected_values": 640,
+      "actual_values": 640,
+      "pad_value": 0,
+      "pad_lines": 384,
+      "out_file": "verification/kws/k7/model_zh_aug_s20261030/board_rom/board_dw_w.hex",
+      "out_lines": 1024,
+      "out_bytes": 3072,
+      "out_sha256": "946ec0705dd78cae268ddd3b8d6140a110e1140bb04734c29275f2a6c9b17899",
+      "sum32": "00016a9e"
+    },
+    {
+      "name": "fc_w",
+      "depth": 16384,
+      "width": 8,
+      "role": "FC weight (16000 B used of 16384)",
+      "sources": [
+        {
+          "file": "fc_w.hex",
+          "lines": 16000,
+          "sha256": "d37b4a5c90b378edc68f3b8cb3297d959ac66c1ed5464ac3e0476b1f3bcbd3db"
+        }
+      ],
+      "expected_values": 16000,
+      "actual_values": 16000,
+      "pad_value": 0,
+      "pad_lines": 384,
+      "out_file": "verification/kws/k7/model_zh_aug_s20261030/board_rom/board_fc_w.hex",
+      "out_lines": 16384,
+      "out_bytes": 49152,
+      "out_sha256": "e13f10ef66bd144d958a0ad29effee2334f829c8d0a3d1504dc358d5f59f2132",
+      "sum32": "001e2e52"
+    },
+    {
+      "name": "bias",
+      "depth": 1024,
+      "width": 32,
+      "role": "DW bias[0:8] then FC bias[0:4] (pad 到 1024 才进 DRM)",
+      "sources": [
+        {
+          "file": "dw_bias.hex",
+          "lines": 8,
+          "sha256": "97ac5e5fcd79f1c241306f777a546c90265f20ee08ec4db742b256d641ae860d"
+        },
+        {
+          "file": "fc_bias.hex",
+          "lines": 4,
+          "sha256": "ca24edbceddd9a9968d93d0ece9e709de830c80d891da7e9a0e55f06b37174d2"
+        }
+      ],
+      "expected_values": 12,
+      "actual_values": 12,
+      "pad_value": 0,
+      "pad_lines": 1012,
+      "out_file": "verification/kws/k7/model_zh_aug_s20261030/board_rom/board_bias.hex",
+      "out_lines": 1024,
+      "out_bytes": 9216,
+      "out_sha256": "7f79fcc3e59683a92dc524332a1792f76aadaa381e5d818c1ad568ec1132c584",
+      "sum32": "ffe31f33"
+    },
+    {
+      "name": "qmult",
+      "depth": 1024,
+      "width": 32,
+      "role": "requant multiplier (pad = 1)",
+      "sources": [
+        {
+          "file": "quant_mult.hex",
+          "lines": 12,
+          "sha256": "a1c818d6cfb8ad0300c7631cc1a5102361f5011dc1c35c157547436822109b28"
+        }
+      ],
+      "expected_values": 12,
+      "actual_values": 12,
+      "pad_value": 1,
+      "pad_lines": 1012,
+      "out_file": "verification/kws/k7/model_zh_aug_s20261030/board_rom/board_qmult.hex",
+      "out_lines": 1024,
+      "out_bytes": 9216,
+      "out_sha256": "881e34b758f2cd33938c1386bc85eec5ff71524c87cb741386a3dff64436152b",
+      "sum32": "3b42f35f"
+    },
+    {
+      "name": "qshift",
+      "depth": 1024,
+      "width": 32,
+      "role": "requant shift (pad = 0)",
+      "sources": [
+        {
+          "file": "quant_shift.hex",
+          "lines": 12,
+          "sha256": "abfcac82f0e37d695625f371440814f57f9fed0bff5cbb1c3f1e12d231ab5ad1"
+        }
+      ],
+      "expected_values": 12,
+      "actual_values": 12,
+      "pad_value": 0,
+      "pad_lines": 1012,
+      "out_file": "verification/kws/k7/model_zh_aug_s20261030/board_rom/board_qshift.hex",
+      "out_lines": 1024,
+      "out_bytes": 9216,
+      "out_sha256": "839c1ffce42ca7f7c3c74cf1c35dd1c0efe169efdb4d280aed036c84af11fb74",
+      "sum32": "ffffff9b"
+    }
+  ],
+  "vecsig": {
+    "dw_sum": "00016a9e",
+    "fc_sum": "001e2e52",
+    "bias0": "ffff2acf",
+    "qmult0": "6dfa0709",
+    "qshift0": "fffffff7"
+  },
+  "rule": "ROM depth/width here must equal pangu100proplus_kws_top.sv instantiation; padding values mirror tb_kws_soc_driver.sv pre-load defaults"
+}

@@ -1,0 +1,153 @@
+# =============================================================================
+# boot_selector.fdc - A4b FDC for the standalone boot selector (MULTIBOOT P2)
+#
+# Device: PG2L100H-6-FBG676 (MES2L676-100HP core board on the MES base board)
+# Clock : 27 MHz single-ended oscillator.
+#
+# 27 MHz pin decision (evidence, see evidence/MULTIBOOT_P0/BOOT_SELECTOR_PDS/
+# README.md for the full quote):
+#   * Core board MES2L676-100HP, hardware guide section 2.1.2.2.3.2
+#     "27MHz 单端时钟", printed page 18: FPGA_GCLK_27M / FPGA 输入全局时钟 = D18.
+#   * Extension base board, section 2.1.3.5.2 "27MHz 有源晶振",
+#     printed page 50: FPGA_GCLK_27M / 单端时钟 = E17.
+#   => Both boards carry their own 27 MHz oscillator with the SAME net name but
+#      DIFFERENT balls. We use D18 (core board), i.e. exactly the pin used by
+#      the working W3/KWS FDC (fpga/constraints/pangu100proplus_w3_kws.fdc:13)
+#      whose bitstreams have run on the real assembled stack. E17 belongs to the
+#      extension board's spare oscillator and is only an alternative if the
+#      design is ever clocked from that source (keep it commented below).
+#
+# Keys: user keys are active-low, on the extension base board
+#       (hardware guide 2.1.3.4.1, printed page 46):
+#       KEY0=C22, KEY1=C23, KEY2=B22, KEY3=A22, KEY4=B20.
+#       No explicit PULL attribute is set: the vendor flow enables the global
+#       user-IO weak pull-ups by default and the base board keys are pulled up
+#       on the board (same convention as the working W3/KWS FDC, which uses
+#       KEY0/C22 as rstn without any pull attribute).
+#
+# LEDs: core-board LED bank, ACTIVE HIGH (LED lit when the pin drives 1).
+#       Same ball map as the working W3/KWS and CoreMark FDCs.
+#
+# UART: board USB-UART, 115200 8N1 (divider 234 @27 MHz, +2.1% baud error,
+#       acceptable for a status/heartbeat channel; a real console only needs
+#       to sample the repeated status byte).
+# =============================================================================
+
+create_clock -name {sys_clk} [get_ports {clk}] -period {37.037037} -waveform {0.000 18.5185185}
+
+# ---- 27 MHz system clock: core board oscillator (see header) ----------------
+define_attribute {p:clk} {PAP_IO_DIRECTION} {INPUT}
+define_attribute {p:clk} {PAP_IO_LOC} {D18}
+define_attribute {p:clk} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:clk} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:clk} {PAP_IO_NONE} {TRUE}
+#
+# Alternative: clock from the extension board's 27 MHz oscillator.
+# define_attribute {p:clk} {PAP_IO_LOC} {E17}
+
+# ---- user keys (active low) ------------------------------------------------
+define_attribute {p:key0_n} {PAP_IO_DIRECTION} {INPUT}
+define_attribute {p:key0_n} {PAP_IO_LOC} {C22}
+define_attribute {p:key0_n} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:key0_n} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:key0_n} {PAP_IO_NONE} {TRUE}
+
+define_attribute {p:key1_n} {PAP_IO_DIRECTION} {INPUT}
+define_attribute {p:key1_n} {PAP_IO_LOC} {C23}
+define_attribute {p:key1_n} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:key1_n} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:key1_n} {PAP_IO_NONE} {TRUE}
+
+define_attribute {p:key2_n} {PAP_IO_DIRECTION} {INPUT}
+define_attribute {p:key2_n} {PAP_IO_LOC} {B22}
+define_attribute {p:key2_n} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:key2_n} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:key2_n} {PAP_IO_NONE} {TRUE}
+
+# ---- board USB UART (optional status channel) ------------------------------
+define_attribute {p:uart_rx} {PAP_IO_DIRECTION} {INPUT}
+define_attribute {p:uart_rx} {PAP_IO_LOC} {B24}
+define_attribute {p:uart_rx} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:uart_rx} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:uart_rx} {PAP_IO_NONE} {TRUE}
+
+define_attribute {p:uart_tx} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:uart_tx} {PAP_IO_LOC} {C24}
+define_attribute {p:uart_tx} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:uart_tx} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:uart_tx} {PAP_IO_DRIVE} {8}
+define_attribute {p:uart_tx} {PAP_IO_NONE} {TRUE}
+define_attribute {p:uart_tx} {PAP_IO_SLEW} {SLOW}
+
+# ---- status LEDs (active high) ---------------------------------------------
+define_attribute {p:led[7]} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:led[7]} {PAP_IO_LOC} {B17}
+define_attribute {p:led[7]} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:led[7]} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:led[7]} {PAP_IO_DRIVE} {8}
+define_attribute {p:led[7]} {PAP_IO_NONE} {TRUE}
+define_attribute {p:led[7]} {PAP_IO_SLEW} {SLOW}
+
+define_attribute {p:led[6]} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:led[6]} {PAP_IO_LOC} {C17}
+define_attribute {p:led[6]} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:led[6]} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:led[6]} {PAP_IO_DRIVE} {8}
+define_attribute {p:led[6]} {PAP_IO_NONE} {TRUE}
+define_attribute {p:led[6]} {PAP_IO_SLEW} {SLOW}
+
+define_attribute {p:led[5]} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:led[5]} {PAP_IO_LOC} {A18}
+define_attribute {p:led[5]} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:led[5]} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:led[5]} {PAP_IO_DRIVE} {8}
+define_attribute {p:led[5]} {PAP_IO_NONE} {TRUE}
+define_attribute {p:led[5]} {PAP_IO_SLEW} {SLOW}
+
+define_attribute {p:led[4]} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:led[4]} {PAP_IO_LOC} {A17}
+define_attribute {p:led[4]} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:led[4]} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:led[4]} {PAP_IO_DRIVE} {8}
+define_attribute {p:led[4]} {PAP_IO_NONE} {TRUE}
+define_attribute {p:led[4]} {PAP_IO_SLEW} {SLOW}
+
+define_attribute {p:led[3]} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:led[3]} {PAP_IO_LOC} {E18}
+define_attribute {p:led[3]} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:led[3]} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:led[3]} {PAP_IO_DRIVE} {8}
+define_attribute {p:led[3]} {PAP_IO_NONE} {TRUE}
+define_attribute {p:led[3]} {PAP_IO_SLEW} {SLOW}
+
+define_attribute {p:led[2]} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:led[2]} {PAP_IO_LOC} {C19}
+define_attribute {p:led[2]} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:led[2]} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:led[2]} {PAP_IO_DRIVE} {8}
+define_attribute {p:led[2]} {PAP_IO_NONE} {TRUE}
+define_attribute {p:led[2]} {PAP_IO_SLEW} {SLOW}
+
+define_attribute {p:led[1]} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:led[1]} {PAP_IO_LOC} {C18}
+define_attribute {p:led[1]} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:led[1]} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:led[1]} {PAP_IO_DRIVE} {8}
+define_attribute {p:led[1]} {PAP_IO_NONE} {TRUE}
+define_attribute {p:led[1]} {PAP_IO_SLEW} {SLOW}
+
+define_attribute {p:led[0]} {PAP_IO_DIRECTION} {OUTPUT}
+define_attribute {p:led[0]} {PAP_IO_LOC} {A20}
+define_attribute {p:led[0]} {PAP_IO_VCCIO} {3.3}
+define_attribute {p:led[0]} {PAP_IO_STANDARD} {LVCMOS33}
+define_attribute {p:led[0]} {PAP_IO_DRIVE} {8}
+define_attribute {p:led[0]} {PAP_IO_NONE} {TRUE}
+define_attribute {p:led[0]} {PAP_IO_SLEW} {SLOW}
+
+# ---- asynchronous inputs ---------------------------------------------------
+# Keys and the UART RX line are asynchronous to sys_clk; they are synchronized
+# inside the RTL (2 FF) and are not timed against the clock.
+set_false_path -from [get_ports {key0_n key1_n key2_n uart_rx}]
+
+# ---- output delays (board-level estimates, same convention as W3/KWS FDC) ---
+set_output_delay -clock [get_clocks {sys_clk}] 5.0 [get_ports {led[*] uart_tx}]
